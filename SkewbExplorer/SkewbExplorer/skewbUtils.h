@@ -5,13 +5,11 @@
 
 #define FACES 6
 #define PIECES_PER_FACE 5
-#define MAX_SEQUENCE 8
+#define MAX_SEQUENCE 15
 
 using skewbState = std::array<uint8_t, FACES * PIECES_PER_FACE>;
 using sequence = std::array<uint8_t, MAX_SEQUENCE>;
-
-//   0       1       2       3       4       5
-// 
+ 
 // w   w | o   o | g   g | r   r | b   b | y   y
 //   w	 |   o   |   g	 |   r   |   b	 |   y
 // w   w | o   o | g   g | r   r | b   b | y   y
@@ -31,6 +29,7 @@ public:
 	bool isSolved();
 	void performSequence(const sequence& moves);
 
+private:
 	// Helper Methods
 	void R();
 	void RPrime();
@@ -41,7 +40,6 @@ public:
 	void B();
 	void BPrime();
 
-private:
 	// Fields
 	skewbState _skewb;
 };
