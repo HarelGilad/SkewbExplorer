@@ -1,0 +1,44 @@
+#ifndef SKEWB
+#define SKEWD
+
+#include <array>
+
+#define FACES 6
+#define PIECES_PER_FACE 5
+
+using skewbState = std::array<uint8_t, FACES* PIECES_PER_FACE>;
+
+//   0       1       2       3       4       5
+// 
+// w   w | o   o | g   g | r   r | b   b | y   y
+//   w	 |   o   |   g	 |   r   |   b	 |   y
+// w   w | o   o | g   g | r   r | b   b | y   y
+// 
+// 1   2 | 6   7 | 11  12 | 16  17 | 21  22 | 26  27
+//   0	 |   5   |   10   |   15   |   20   |   25
+// 4   3 | 9   8 | 14  13 | 19  18 | 24  23 | 29  28
+
+// 1   2
+//   0
+// 4   3
+
+class Skewb
+{
+public:
+
+	bool isSolved();
+
+private:
+	void R();
+	void RPrime();
+	void L();
+	void LPrime();
+	void U();
+	void UPrime();
+	void B();
+	void BPrime();
+
+	skewbState _skewb;
+};
+
+#endif
