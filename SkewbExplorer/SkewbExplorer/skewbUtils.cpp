@@ -1,5 +1,21 @@
 #include "skewbUtils.h"
 
+Skewb::Skewb()
+{
+    for (size_t face = 0; face < FACES; face++)
+    {
+        for (size_t piece = 0; piece < PIECES_PER_FACE; piece++)
+        {
+            _skewb[face * PIECES_PER_FACE + piece] = (uint8_t)face;
+        }
+    }
+}
+
+Skewb::Skewb(const Skewb& other) :
+    _skewb(other._skewb)
+{
+}
+
 bool Skewb::isSolved()
 {
     return _skewb[0] == _skewb[1] && _skewb[1] == _skewb[2] && _skewb[2] == _skewb[3] && _skewb[3] == _skewb[4]
@@ -7,6 +23,50 @@ bool Skewb::isSolved()
         && _skewb[10] == _skewb[11] && _skewb[11] == _skewb[12] && _skewb[12] == _skewb[13] && _skewb[13] == _skewb[14]
         && _skewb[15] == _skewb[16] && _skewb[16] == _skewb[17] && _skewb[17] == _skewb[18] && _skewb[18] == _skewb[19]
         && _skewb[20] == _skewb[21] && _skewb[21] == _skewb[22] && _skewb[22] == _skewb[23] && _skewb[23] == _skewb[24];
+}
+
+void Skewb::performSequence(const sequence& moves)
+{
+    for (size_t i = 0; i < MAX_SEQUENCE && moves[i] != 0; i++)
+    {
+        switch (moves[i])
+        {
+        case 1:
+            R();
+            break;
+
+        case 2:
+            RPrime();
+            break;
+
+        case 3:
+            L();
+            break;
+
+        case 4:
+            LPrime();
+            break;
+
+        case 5:
+            U();
+            break;
+
+        case 6:
+            UPrime();
+            break;
+
+        case 7:
+            B();
+            break;
+
+        case 8:
+            BPrime();
+            break;
+
+        default:
+            break;
+        }
+    }
 }
 
 void Skewb::R()
