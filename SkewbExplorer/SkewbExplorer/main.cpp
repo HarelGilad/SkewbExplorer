@@ -3,7 +3,7 @@
 #include <string>
 #include <sstream>
 
-void decimalToOctal(unsigned int value, sequence& moves);
+void decimalToOctal(uint64_t value, sequence& moves);
 bool isValidSolution(const Skewb& skewb, const sequence& moves);
 void printSequence(const sequence& moves);
 Skewb getScrambledSkewb();
@@ -14,7 +14,7 @@ int main()
 {
     Skewb skewb;
     sequence moves = { 0 };
-    int curr = 0;
+    uint64_t curr = 0;
 
     std::cout << "Enter Skewb Scramble (R/R'/L/L'/U/U'/B/B'):" << std::endl;
     skewb = getScrambledSkewb();
@@ -37,7 +37,7 @@ int main()
     return 0;
 }
 
-void decimalToOctal(unsigned int value, sequence& moves)
+void decimalToOctal(uint64_t value, sequence& moves)
 {
     for (size_t i = 0; i < MAX_SEQUENCE && value; i++)
     {
