@@ -2,13 +2,15 @@
 #define SKEWD
 
 #include <array>
+#include <vector>
 
 #define FACES 6
 #define PIECES_PER_FACE 5
-#define MAX_SEQUENCE 15
+#define MAX_SEQUENCE 11
 
 using skewbState = std::array<uint8_t, FACES * PIECES_PER_FACE>;
 using sequence = std::array<uint8_t, MAX_SEQUENCE>;
+using scramble = std::vector<uint8_t>;
  
 // w   w | o   o | g   g | r   r | b   b | y   y
 //   w	 |   o   |   g	 |   r   |   b	 |   y
@@ -28,9 +30,12 @@ public:
 	// Methods
 	bool isSolved();
 	void performSequence(const sequence& moves);
+	void performSequence(const scramble& moves);
 
 private:
 	// Helper Methods
+	void makeMove(const uint8_t move);
+
 	void R();
 	void RPrime();
 	void L();

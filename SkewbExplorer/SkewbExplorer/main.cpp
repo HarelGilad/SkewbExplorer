@@ -8,6 +8,8 @@ bool isValidSolution(const Skewb& skewb, const sequence& moves);
 void printSequence(const sequence& moves);
 Skewb getScrambledSkewb();
 
+size_t searchDepth = 0;
+
 int main()
 {
     Skewb skewb;
@@ -16,6 +18,8 @@ int main()
 
     std::cout << "Enter Skewb Scramble (R/R'/L/L'/U/U'/B/B'):" << std::endl;
     skewb = getScrambledSkewb();
+
+    std::cout << std::endl;
 
     while (true)
     {
@@ -27,7 +31,7 @@ int main()
         curr++;
     }
 
-    std::cout << "Solution Found:" << std::endl;
+    std::cout << std::endl << "Solution Found:" << std::endl;
     printSequence(moves);
 
     return 0;
@@ -37,6 +41,12 @@ void decimalToOctal(unsigned int value, sequence& moves)
 {
     for (size_t i = 0; i < MAX_SEQUENCE && value; i++)
     {
+        if (i + 1 > searchDepth)
+        {
+            std::cout << "\rSearching Depth: " << i + 1 << std::flush;
+            searchDepth = i + 1;
+        }
+
         moves[i] = (value & 7) + 1; // base-8 digit
         value >>= 3;
     }
@@ -54,15 +64,15 @@ void printSequence(const sequence& moves)
 {
     for (size_t i = 0; i < MAX_SEQUENCE; i++)
     {
-        std::string move = (moves[i] == 1) ? "R" :
-                           (moves[i] == 2) ? "R'" :
-                           (moves[i] == 3) ? "L" :
-                           (moves[i] == 4) ? "L'" :
-                           (moves[i] == 5) ? "U" :
-                           (moves[i] == 6) ? "U'" :
-                           (moves[i] == 7) ? "B" :
-                           (moves[i] == 8) ? "B'" : "";
-        std::cout << move << " ";
+        std::string moveStr = (moves[i] == 1) ? "R" :
+                              (moves[i] == 2) ? "R'" :
+                              (moves[i] == 3) ? "L" :
+                              (moves[i] == 4) ? "L'" :
+                              (moves[i] == 5) ? "U" :
+                              (moves[i] == 6) ? "U'" :
+                              (moves[i] == 7) ? "B" :
+                              (moves[i] == 8) ? "B'" : "";
+        std::cout << moveStr << " ";
     }
     std::cout << std::endl;
 }
@@ -70,28 +80,29 @@ void printSequence(const sequence& moves)
 Skewb getScrambledSkewb()
 {
     Skewb skewb;
-    sequence moves = { 0 };
-    std::string scramble, move;
+    scramble scramble;
+    std::string scrambleStr, moveStr;
     size_t index = 0;
 
-    std::getline(std::cin, scramble);
-    std::stringstream ss(scramble);
+    std::getline(std::cin, scrambleStr);
+    std::stringstream scrambleStrStream(scrambleStr);
 
-    while (ss >> move && index < MAX_SEQUENCE)
+    while (scrambleStrStream >> moveStr)
     {
-        moves[index] = (move == "R") ? 1 :
-                       (move == "R'") ? 2 :
-                       (move == "L") ? 3 :
-                       (move == "L'") ? 4 :
-                       (move == "U") ? 5 :
-                       (move == "U'") ? 6 :
-                       (move == "B") ? 7 :
-                       (move == "B'") ? 8 : 0;
+        uint8_t move = (moveStr == "R") ? 1 :
+                       (moveStr == "R'") ? 2 :
+                       (moveStr == "L") ? 3 :
+                       (moveStr == "L'") ? 4 :
+                       (moveStr == "U") ? 5 :
+                       (moveStr == "U'") ? 6 :
+                       (moveStr == "B") ? 7 :
+                       (moveStr == "B'") ? 8 : 0;
+        scramble.push_back(move);
 
         index++;
     }
 
-    skewb.performSequence(moves);
+    skewb.performSequence(scramble);
 
     return skewb;
 }
