@@ -29,43 +29,56 @@ void Skewb::performSequence(const sequence& moves)
 {
     for (size_t i = 0; i < MAX_SEQUENCE && moves[i] != 0; i++)
     {
-        switch (moves[i])
-        {
-        case 1:
-            R();
-            break;
+        makeMove(moves[i]);
+    }
+}
 
-        case 2:
-            RPrime();
-            break;
+void Skewb::performSequence(const scramble& moves)
+{
+    for (size_t i = 0; i < moves.size(); i++)
+    {
+        makeMove(moves[i]);
+    }
+}
 
-        case 3:
-            L();
-            break;
+void Skewb::makeMove(const uint8_t move)
+{
+    switch (move)
+    {
+    case 1:
+        R();
+        break;
 
-        case 4:
-            LPrime();
-            break;
+    case 2:
+        RPrime();
+        break;
 
-        case 5:
-            U();
-            break;
+    case 3:
+        L();
+        break;
 
-        case 6:
-            UPrime();
-            break;
+    case 4:
+        LPrime();
+        break;
 
-        case 7:
-            B();
-            break;
+    case 5:
+        U();
+        break;
 
-        case 8:
-            BPrime();
-            break;
+    case 6:
+        UPrime();
+        break;
 
-        default:
-            break;
-        }
+    case 7:
+        B();
+        break;
+
+    case 8:
+        BPrime();
+        break;
+
+    default:
+        break;
     }
 }
 
