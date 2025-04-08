@@ -6,7 +6,7 @@
 
 #define FACES 6
 #define PIECES_PER_FACE 5
-#define MAX_SEQUENCE 11
+#define MAX_SEQUENCE 11 // Longest minimal scramble is 11 moves -> U L U' R' U B' U L R' U B
 
 using skewbState = std::array<uint8_t, FACES * PIECES_PER_FACE>;
 using sequence = std::array<uint8_t, MAX_SEQUENCE>;
@@ -20,6 +20,19 @@ using scramble = std::vector<uint8_t>;
 //   0	 |   5   |   10   |   15   |   20   |   25
 // 4   3 | 9   8 | 14  13 | 19  18 | 24  23 | 29  28
 
+enum Moves : uint8_t
+{
+	EMPTY,
+	R,
+	RPrime,
+	L,
+	LPrime,
+	U,
+	UPrime,
+	B,
+	BPrime
+};
+
 class Skewb
 {
 public:
@@ -31,6 +44,7 @@ public:
 	bool isSolved();
 	void performSequence(const sequence& moves);
 	void performSequence(const scramble& moves);
+	static Skewb getScrambledSkewb();
 
 private:
 	// Helper Methods

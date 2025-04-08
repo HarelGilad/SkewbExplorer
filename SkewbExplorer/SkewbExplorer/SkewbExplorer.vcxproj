@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="skewbUtils.cpp" />
+    <ClCompile Include="skewb.cpp" />
+    <ClCompile Include="solver.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="skewbUtils.h" />
+    <ClInclude Include="skewb.h" />
+    <ClInclude Include="solver.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
