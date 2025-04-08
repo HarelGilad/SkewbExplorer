@@ -6,7 +6,7 @@ size_t Solver::_currSequence = 0;
 
 void Solver::findSolution(const Skewb& skewb)
 {
-	sequence moves = { 0 };
+	sequence moves = { Moves::EMPTY };
 
     while (true)
     {
@@ -22,6 +22,7 @@ void Solver::findSolution(const Skewb& skewb)
 void Solver::getNextSequence(sequence& moves)
 {
     uint64_t value = _currSequence++;
+    uint8_t move = Moves::EMPTY, lastMove = Moves::EMPTY;
 
     for (size_t i = 0; i < MAX_SEQUENCE && value; i++)
     {
@@ -33,8 +34,19 @@ void Solver::getNextSequence(sequence& moves)
         }
 
         // Extract base-8 digit
-        moves[i] = (value & 7) + 1; 
+        move = (value & 7) + 1; 
         value >>= 3;
+
+        // If the sequence has following moves which cancel
+        if (isInverseMove(lastMove, move) || move == lastMove)
+        {
+            getNextSequence(moves);
+            return;
+        }
+
+        // Insert next move into the sequence
+        moves[i] = move;
+        lastMove = move;
     }
 }
 
@@ -46,18 +58,51 @@ bool Solver::isValidSolution(const Skewb& skewb, const sequence& moves)
     return temp.isSolved();
 }
 
+bool Solver::isInverseMove(const uint8_t last, const uint8_t curr)
+{
+    switch (last)
+    {
+    case Moves::R:
+        return curr == Moves::RPrime;
+
+    case Moves::RPrime:
+        return curr == R;
+
+    case Moves::L:
+        return curr == Moves::LPrime;
+
+    case Moves::LPrime:
+        return curr == Moves::L;
+
+    case Moves::U:
+        return curr == Moves::UPrime;
+
+    case Moves::UPrime:
+        return curr == Moves::U;
+
+    case Moves::B:
+        return curr == Moves::BPrime;
+
+    case Moves::BPrime:
+        return curr == Moves::B;
+
+    default:
+        return false;
+    }
+}
+
 void Solver::printSequence(const sequence& moves)
 {
     for (size_t i = 0; i < MAX_SEQUENCE; i++)
     {
-        std::string moveStr = (moves[i] == 1) ? "R" :
-                              (moves[i] == 2) ? "R'" :
-                              (moves[i] == 3) ? "L" :
-                              (moves[i] == 4) ? "L'" :
-                              (moves[i] == 5) ? "U" :
-                              (moves[i] == 6) ? "U'" :
-                              (moves[i] == 7) ? "B" :
-                              (moves[i] == 8) ? "B'" : "";
+        std::string moveStr = (moves[i] == Moves::R) ? "R" :
+                              (moves[i] == Moves::RPrime) ? "R'" :
+                              (moves[i] == Moves::L) ? "L" :
+                              (moves[i] == Moves::LPrime) ? "L'" :
+                              (moves[i] == Moves::U) ? "U" :
+                              (moves[i] == Moves::UPrime) ? "U'" :
+                              (moves[i] == Moves::B) ? "B" :
+                              (moves[i] == Moves::BPrime) ? "B'" : "";
         std::cout << moveStr << " ";
     }
     std::cout << std::endl;

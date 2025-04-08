@@ -20,6 +20,19 @@ using scramble = std::vector<uint8_t>;
 //   0	 |   5   |   10   |   15   |   20   |   25
 // 4   3 | 9   8 | 14  13 | 19  18 | 24  23 | 29  28
 
+enum Moves : uint8_t
+{
+	EMPTY,
+	R,
+	RPrime,
+	L,
+	LPrime,
+	U,
+	UPrime,
+	B,
+	BPrime
+};
+
 class Skewb
 {
 public:

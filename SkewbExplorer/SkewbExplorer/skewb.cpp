@@ -30,7 +30,7 @@ bool Skewb::isSolved()
 
 void Skewb::performSequence(const sequence& moves)
 {
-    for (size_t i = 0; i < MAX_SEQUENCE && moves[i] != 0; i++)
+    for (size_t i = 0; i < MAX_SEQUENCE && moves[i] != Moves::EMPTY; i++)
     {
         makeMove(moves[i]);
     }
@@ -60,14 +60,14 @@ Skewb Skewb::getScrambledSkewb()
 
     while (scrambleStrStream >> moveStr)
     {
-        uint8_t move = (moveStr == "R") ? 1 :
-                       (moveStr == "R'") ? 2 :
-                       (moveStr == "L") ? 3 :
-                       (moveStr == "L'") ? 4 :
-                       (moveStr == "U") ? 5 :
-                       (moveStr == "U'") ? 6 :
-                       (moveStr == "B") ? 7 :
-                       (moveStr == "B'") ? 8 : 0;
+        uint8_t move = (moveStr == "R") ? Moves::R :
+                       (moveStr == "R'") ? Moves::RPrime :
+                       (moveStr == "L") ? Moves::L :
+                       (moveStr == "L'") ? Moves::LPrime :
+                       (moveStr == "U") ? Moves::U :
+                       (moveStr == "U'") ? Moves::UPrime :
+                       (moveStr == "B") ? Moves::B :
+                       (moveStr == "B'") ? Moves::BPrime : Moves::EMPTY;
         scramble.push_back(move);
 
         index++;
@@ -82,35 +82,35 @@ void Skewb::makeMove(const uint8_t move)
 {
     switch (move)
     {
-    case 1:
+    case Moves::R:
         R();
         break;
 
-    case 2:
+    case Moves::RPrime:
         RPrime();
         break;
 
-    case 3:
+    case Moves::L:
         L();
         break;
 
-    case 4:
+    case Moves::LPrime:
         LPrime();
         break;
 
-    case 5:
+    case Moves::U:
         U();
         break;
 
-    case 6:
+    case Moves::UPrime:
         UPrime();
         break;
 
-    case 7:
+    case Moves::B:
         B();
         break;
 
-    case 8:
+    case Moves::BPrime:
         BPrime();
         break;
 
