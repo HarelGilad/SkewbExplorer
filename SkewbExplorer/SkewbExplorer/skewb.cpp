@@ -1,4 +1,7 @@
-#include "skewbUtils.h"
+#include "skewb.h"
+#include <iostream>
+#include <string>
+#include <sstream>
 
 Skewb::Skewb()
 {
@@ -39,6 +42,40 @@ void Skewb::performSequence(const scramble& moves)
     {
         makeMove(moves[i]);
     }
+}
+
+Skewb Skewb::getScrambledSkewb()
+{
+    Skewb skewb;
+    scramble scramble;
+    std::string scrambleStr, moveStr;
+    size_t index = 0;
+
+    std::cout << "Enter Skewb Scramble (R/R'/L/L'/U/U'/B/B'):" << std::endl;
+
+    std::getline(std::cin, scrambleStr);
+    std::cout << std::endl;
+
+    std::stringstream scrambleStrStream(scrambleStr);
+
+    while (scrambleStrStream >> moveStr)
+    {
+        uint8_t move = (moveStr == "R") ? 1 :
+                       (moveStr == "R'") ? 2 :
+                       (moveStr == "L") ? 3 :
+                       (moveStr == "L'") ? 4 :
+                       (moveStr == "U") ? 5 :
+                       (moveStr == "U'") ? 6 :
+                       (moveStr == "B") ? 7 :
+                       (moveStr == "B'") ? 8 : 0;
+        scramble.push_back(move);
+
+        index++;
+    }
+
+    skewb.performSequence(scramble);
+
+    return skewb;
 }
 
 void Skewb::makeMove(const uint8_t move)
